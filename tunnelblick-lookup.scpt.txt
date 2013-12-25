@@ -4,8 +4,14 @@ tell application "Tunnelblick"
     repeat with c in configs
         set xml to xml & "<item uid=\"" & c & "\" arg=\"" & c & "\">"
         set xml to xml & "<title>" & c & "</title>"
-        set xml to xml & "<subtitle>Connect/Disconnect to " & c & "</subtitle>"
-        set xml to xml & "<icon>icon.png</icon>"
+        set s to get (state of first configuration where name = c)
+        if s is equal to "CONNECTED" then
+            set xml to xml & "<subtitle>Disconnect from " & c & "</subtitle>"
+            set xml to xml & "<icon>icons/open.png</icon>"
+        else
+            set xml to xml & "<subtitle>Connect to " & c & "</subtitle>"
+            set xml to xml & "<icon>icons/closed.png</icon>"
+        end if
         set xml to xml & "<autocomplete>" & c & "</autocomplete>"
         set xml to xml & "</item>"
     end repeat
